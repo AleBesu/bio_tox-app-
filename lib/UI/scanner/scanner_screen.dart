@@ -5,6 +5,7 @@ import 'dart:typed_data';
 import 'package:bio_tox/UI/scanner/scanner_result_screen.dart';
 import 'package:bio_tox/UI/widgets/loading_screen.dart';
 import 'package:bio_tox/app/theme/app_colors.dart';
+import 'package:bio_tox/core/entities/scann_result.dart';
 import 'package:bio_tox/core/features/files_manage/cropper_image.dart';
 import 'package:bio_tox/core/features/files_manage/get_image_from_device.dart';
 import 'package:bio_tox/core/features/files_manage/image_procesor.dart';
@@ -151,9 +152,7 @@ class _ScannerScreenState extends State<ScannerScreen> {
     return Uint8List.fromList(img.encodePng(cropped));
   }
 
-  Future<List<Map<String, double>>> scanAnimalDetailed(
-    FileImage imageFile,
-  ) async {
+  Future<List<ScannResult>> scanAnimalDetailed(FileImage imageFile) async {
     //remove backgroud
 
     FileImage? procesedImage;
@@ -170,7 +169,7 @@ class _ScannerScreenState extends State<ScannerScreen> {
       )!,
     );
     //scanner results
-    final results = await ScannerHandler.searchAnimalDetails(pickedEmbedings);
+    final results = await ScannerHandler.searchAnimal(pickedEmbedings);
 
     if (results.isEmpty) {
       throw ("No se detectó ningún animal en la imagen");
@@ -296,8 +295,7 @@ class _ScannerScreenState extends State<ScannerScreen> {
                                               MaterialPageRoute(
                                                 builder: (context) =>
                                                     ScannerResultScreen(
-                                                      resultsDetailed:
-                                                          resultsDetailed,
+                                                      results: resultsDetailed,
                                                       pickedImage: FileImage(
                                                         imageFile,
                                                       ),
@@ -397,7 +395,7 @@ class _ScannerScreenState extends State<ScannerScreen> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) => ScannerResultScreen(
-                                  resultsDetailed: resultsDetailed,
+                                  results: resultsDetailed,
                                   pickedImage: croppedImage,
                                 ),
                               ),

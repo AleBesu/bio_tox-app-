@@ -4,6 +4,7 @@ import 'dart:math';
 
 import 'dart:typed_data';
 
+import 'package:bio_tox/core/entities/scann_result.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/services.dart';
 
@@ -13,8 +14,8 @@ import 'package:image/image.dart' as img;
 abstract class ScannerHandler {
   static late OrtSession session;
 
-  static List<Map<String, List<double>>> animalsEmbedingsList = [];
-  static Map<String, List<String>> animalsEmbedings = {
+  static Map<String, List<List<double>>> animalsEmbedingsJson = {};
+  static Map<String, List<String>> animalsEmbedingsAssets = {
     'bothrops atrox': [
       'assets/animals/bothrops_atrox/1.json',
       'assets/animals/bothrops_atrox/2.json',
@@ -69,18 +70,24 @@ abstract class ScannerHandler {
     );
 
     //add animals list
-    for (final animal in animalsEmbedings.entries) {
+    for (final animal in animalsEmbedingsAssets.entries) {
       for (final asset in animal.value) {
         final embedding = List<double>.from(
           jsonDecode(jsonDecode(await rootBundle.loadString(asset))),
         );
 
-        animalsEmbedingsList.add({animal.key: embedding});
+        // animalsEmbedingsList.add({animal.key: embedding});
+
+        animalsEmbedingsJson[animal.key] = [
+          if (animalsEmbedingsJson[animal.key] != null)
+            ...animalsEmbedingsJson[animal.key]!,
+          embedding,
+        ];
       }
     }
   }
 
-  //=================Get Embeding=========================
+  //!=================Get Embeding=========================
 
   static Future<List<double>> getEmbedingFromImage(img.Image image) async {
     if (image.width != image.height) {
@@ -134,16 +141,39 @@ abstract class ScannerHandler {
         .toList();
   }
 
-  static List<Map<String, double>> searchAnimalDetails(List<double> embedings) {
-    List<Map<String, double>> scannerResults = [];
+  ///!====================Compare==========================================
 
-    animalsEmbedingsList.forEach((element) {
-      final similarity = cosineSimilarity(embedings, element.values.first);
+  static List<ScannResult> searchAnimal(List<double> embedingToScann) {
+    Map<String, double> scannerResults = {};
 
-      scannerResults.add({element.keys.first: similarity});
-    });
+    // animalsEmbedingsJson.forEach((animal) {
+    //   final similarity = cosineSimilarity(embedings, animal.values.first);
 
-    return scannerResults;
+    //   //compare if there is minor value scanned in the same specie
+
+    //   if (animal) scannerResults.add({animal.keys.first: similarity});
+    // });
+
+    for (var animal in animalsEmbedingsJson.entries) {
+      double greatesSimilarity = 0;
+      //scann all embedings of the animal;
+      for (var currentEmbeding in animal.value) //list of embedings
+      {
+        //calculate similarity
+        final similarity = cosineSimilarity(currentEmbeding, embedingToScann);
+
+        //set greater similarty
+        if (similarity >= greatesSimilarity) {
+          greatesSimilarity = similarity;
+        }
+      }
+
+      scannerResults[animal.key] = (greatesSimilarity * 100);
+    }
+
+    return scannerResults.entries
+        .map((e) => ScannResult(similarity: e.value, animalName: e.key))
+        .toList();
   }
 
   static double cosineSimilarity(List<double> a, List<double> b) {
