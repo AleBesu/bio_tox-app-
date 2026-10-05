@@ -1,6 +1,6 @@
 import 'package:bio_tox/core/entities/sintoma.dart';
 import 'package:bio_tox/core/entities/specie.dart';
-import 'package:bio_tox/core/enum/danger_level.dart';
+import 'package:bio_tox/core/enum/risk.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
@@ -14,7 +14,7 @@ final List<Specie> latamVenomousSpecies = [
     embeddings: [],
     commonName: 'Rana Dorada Venenosa',
     scientificName: 'Phyllobates terribilis',
-    dangerLevel: DangerLevel.alto,
+    risk: Risk.alto,
     tipoDeVeneno: 'Batracotoxina (Neurotóxico)',
     genero: 'Phyllobates',
     familia: 'Dendrobatidae',
@@ -47,7 +47,7 @@ final List<Specie> latamVenomousSpecies = [
     embeddings: [],
     commonName: 'Araña Errante Brasileña',
     scientificName: 'Phoneutria nigriventer',
-    dangerLevel: DangerLevel.alto,
+    risk: Risk.alto,
     tipoDeVeneno: 'PhTx3 (Neurotóxico)',
     genero: 'Phoneutria',
     familia: 'Ctenidae',
@@ -80,7 +80,7 @@ final List<Specie> latamVenomousSpecies = [
     embeddings: [],
     commonName: 'Serpiente Terciopelo',
     scientificName: 'Bothrops asper',
-    dangerLevel: DangerLevel.alto,
+    risk: Risk.alto,
     tipoDeVeneno: 'Hemotóxico y Miotóxico',
     genero: 'Bothrops',
     familia: 'Viperidae',
@@ -113,7 +113,7 @@ final List<Specie> latamVenomousSpecies = [
     embeddings: [],
     commonName: 'Araña de Rincón',
     scientificName: 'Loxosceles laeta',
-    dangerLevel: DangerLevel.alto,
+    risk: Risk.alto,
     tipoDeVeneno: 'Esfingomielinasa D (Necrotóxico)',
     genero: 'Loxosceles',
     familia: 'Sicariidae',
@@ -146,7 +146,7 @@ final List<Specie> latamVenomousSpecies = [
     embeddings: [],
     commonName: 'Cascabel Tropical',
     scientificName: 'Crotalus durissus',
-    dangerLevel: DangerLevel.alto,
+    risk: Risk.alto,
     tipoDeVeneno: 'Neurotóxico y Miotóxico',
     genero: 'Crotalus',
     familia: 'Viperidae',
@@ -179,7 +179,7 @@ final List<Specie> latamVenomousSpecies = [
     embeddings: [],
     commonName: 'Escorpión Amarillo Brasileño',
     scientificName: 'Tityus serrulatus',
-    dangerLevel: DangerLevel.alto,
+    risk: Risk.alto,
     tipoDeVeneno: 'Neurotóxico',
     genero: 'Tityus',
     familia: 'Buthidae',
@@ -212,7 +212,7 @@ final List<Specie> latamVenomousSpecies = [
     embeddings: [],
     commonName: 'Hormiga Bala',
     scientificName: 'Paraponera clavata',
-    dangerLevel: DangerLevel.medio,
+    risk: Risk.medio,
     tipoDeVeneno: 'Poneratoxina (Neurotóxico)',
     genero: 'Paraponera',
     familia: 'Paraponeridae',
@@ -245,7 +245,7 @@ final List<Specie> latamVenomousSpecies = [
     embeddings: [],
     commonName: 'Serpiente Coral',
     scientificName: 'Micrurus lemniscatus',
-    dangerLevel: DangerLevel.alto,
+    risk: Risk.alto,
     tipoDeVeneno: 'Neurotóxico potente',
     genero: 'Micrurus',
     familia: 'Elapidae',

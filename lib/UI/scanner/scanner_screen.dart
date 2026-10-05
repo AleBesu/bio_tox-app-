@@ -3,7 +3,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:bio_tox/UI/scanner/scanner_result_screen.dart';
-import 'package:bio_tox/UI/widgets/loading_screen.dart';
+import 'package:bio_tox/UI/widgets/dialogs/loading_screen.dart';
 import 'package:bio_tox/app/theme/app_colors.dart';
 import 'package:bio_tox/core/entities/scann_result.dart';
 import 'package:bio_tox/core/features/files_manage/cropper_image.dart';
@@ -290,18 +290,18 @@ class _ScannerScreenState extends State<ScannerScreen> {
                                                   FileImage(imageFile),
                                                 );
 
-                                            await Navigator.pushReplacement(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    ScannerResultScreen(
-                                                      results: resultsDetailed,
-                                                      pickedImage: FileImage(
-                                                        imageFile,
-                                                      ),
-                                                    ),
-                                              ),
-                                            );
+                                            //! await Navigator.pushReplacement(
+                                            //   context,
+                                            //   MaterialPageRoute(
+                                            //     builder: (context) =>
+                                            //         ScannerResultScreen(
+                                            //           results: resultsDetailed,
+                                            //           pickedImage: FileImage(
+                                            //             imageFile,
+                                            //           ),
+                                            //         ),
+                                            //   ),
+                                            // );
                                           } catch (e) {
                                             Navigator.pop(context);
                                             ScaffoldMessenger.of(
@@ -390,16 +390,16 @@ class _ScannerScreenState extends State<ScannerScreen> {
                               FileImage(croppedImage.file),
                             );
 
-                            //go to the result screen
-                            await Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => ScannerResultScreen(
-                                  results: resultsDetailed,
-                                  pickedImage: croppedImage,
-                                ),
-                              ),
-                            );
+                            //!go to the result screen
+                            // await Navigator.pushReplacement(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //     builder: (context) => ScannerResultScreen(
+                            //       results: resultsDetailed,
+                            //       pickedImage: croppedImage,
+                            //     ),
+                            //   ),
+                            // );
                           }
                         }
                       },

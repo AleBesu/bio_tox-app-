@@ -1,3 +1,5 @@
+import 'package:bio_tox/UI/main_screen.dart';
+import 'package:bio_tox/UI/scanner/scanner_result_screen.dart';
 import 'package:bio_tox/UI/scanner/scanner_screen.dart';
 
 import 'package:bio_tox/app/theme/app_theme.dart';
@@ -21,7 +23,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: appTheme,
         title: 'BioTox',
-        home: ScannerScreen(),
+        home: ResultScreen(),
       ),
     );
   }

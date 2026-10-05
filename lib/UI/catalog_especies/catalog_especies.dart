@@ -192,11 +192,11 @@ class CatalogoEspeciesScreen extends StatelessWidget {
                     vertical: 3,
                   ),
                   decoration: BoxDecoration(
-                    color: especie.dangerLevel.color,
+                    color: especie.risk.color,
                     borderRadius: BorderRadius.circular(4),
                   ),
                   child: Text(
-                    especie.dangerLevel.name,
+                    especie.risk.name,
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 10,

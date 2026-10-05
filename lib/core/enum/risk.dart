@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-enum DangerLevel {
+enum Risk {
   bajo(Colors.green),
   medio(Colors.yellow),
   alto(Colors.red);
 
   final Color color;
-  const DangerLevel(this.color);
+  const Risk(this.color);
 }

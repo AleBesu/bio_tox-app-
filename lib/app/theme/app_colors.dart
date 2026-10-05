@@ -1,5 +1,7 @@
 import 'dart:ui';
 
+import 'package:flutter/material.dart';
+
 abstract class AppColors {
   /// Verde lima principal.
   static const Color primaryColor = Color(0xFFB6FF1F);
@@ -10,4 +12,6 @@ abstract class AppColors {
   static const Color cardBackground = Color(0xFF161C13);
 
   static const Color repRed = Color(0xFFEB4B3D);
+
+  static const Color repAccentGreen = Colors.lightGreenAccent;
 }
