@@ -5,7 +5,8 @@ import 'dart:typed_data';
 import 'package:bio_tox/UI/scanner/scanner_result_screen.dart';
 import 'package:bio_tox/UI/widgets/dialogs/loading_screen.dart';
 import 'package:bio_tox/app/theme/app_colors.dart';
-import 'package:bio_tox/core/entities/scann_result.dart';
+
+import 'package:bio_tox/core/entities/specie.dart';
 import 'package:bio_tox/core/features/files_manage/cropper_image.dart';
 import 'package:bio_tox/core/features/files_manage/get_image_from_device.dart';
 import 'package:bio_tox/core/features/files_manage/image_procesor.dart';
@@ -15,8 +16,8 @@ import 'package:flutter/material.dart';
 import 'package:image/image.dart' as img;
 import 'package:image_background_remover/image_background_remover.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:ultralytics_yolo/yolo.dart';
+
+// import 'package:ultralytics_yolo/yolo.dart';
 
 class ScannerScreen extends StatefulWidget {
   const ScannerScreen({super.key});
@@ -28,10 +29,10 @@ class ScannerScreen extends StatefulWidget {
 class _ScannerScreenState extends State<ScannerScreen> {
   bool isLoadingCamera = true;
   bool isScanning = false;
-  YOLO yolo = YOLO(
-    modelPath: 'assets/models/yolo26x_w8a32.tflite',
-    task: YOLOTask.segment,
-  );
+  // YOLO yolo = YOLO(
+  //   modelPath: 'assets/models/yolo26x_w8a32.tflite',
+  //   task: YOLOTask.segment,
+  // );
 
   FileImage? imageToScan;
 
@@ -152,7 +153,7 @@ class _ScannerScreenState extends State<ScannerScreen> {
     return Uint8List.fromList(img.encodePng(cropped));
   }
 
-  Future<List<ScannResult>> scanAnimalDetailed(FileImage imageFile) async {
+  Future<List<Specie>> scanAnimalDetailed(FileImage imageFile) async {
     //remove backgroud
 
     FileImage? procesedImage;
@@ -290,18 +291,19 @@ class _ScannerScreenState extends State<ScannerScreen> {
                                                   FileImage(imageFile),
                                                 );
 
-                                            //! await Navigator.pushReplacement(
-                                            //   context,
-                                            //   MaterialPageRoute(
-                                            //     builder: (context) =>
-                                            //         ScannerResultScreen(
-                                            //           results: resultsDetailed,
-                                            //           pickedImage: FileImage(
-                                            //             imageFile,
-                                            //           ),
-                                            //         ),
-                                            //   ),
-                                            // );
+                                            await Navigator.pushReplacement(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    ScannerResultScreen(
+                                                      similiarSpecies:
+                                                          resultsDetailed,
+                                                      scannedImage: FileImage(
+                                                        imageFile,
+                                                      ),
+                                                    ),
+                                              ),
+                                            );
                                           } catch (e) {
                                             Navigator.pop(context);
                                             ScaffoldMessenger.of(
@@ -359,58 +361,86 @@ class _ScannerScreenState extends State<ScannerScreen> {
           Positioned(
             right: 6,
             top: 6,
-            child: IconButton(
-              icon: const Icon(Icons.collections),
-              color: Colors.white,
-              onPressed: () async {
-                _cameraController?.pausePreview();
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => LoadingScreen(
-                      functionToLoad: () async {
-                        //pick the image from the gallery
-                        final pickedImage = await getImageFromDevice(
-                          ImageSource.gallery,
-                        );
-
-                        if (pickedImage != null) {
-                          //crop the image
-                          final croppedImage = await croppeImage(
-                            pickedImage,
-                            radioX: 1,
-                            radioY: 1,
-                          );
-
-                          if (croppedImage != null) {
-                            setState(() {
-                              imageToScan = croppedImage;
-                            });
-                            final resultsDetailed = await scanAnimalDetailed(
-                              FileImage(croppedImage.file),
-                            );
-
-                            //!go to the result screen
-                            // await Navigator.pushReplacement(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //     builder: (context) => ScannerResultScreen(
-                            //       results: resultsDetailed,
-                            //       pickedImage: croppedImage,
-                            //     ),
-                            //   ),
-                            // );
-                          }
-                        }
-                      },
+            child: Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(100),
+                    onTap: () {
+                      setState(() {
+                        removeBackground = !removeBackground;
+                      });
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(6.0),
+                      child: Icon(
+                        Icons.auto_fix_high,
+                        color: removeBackground
+                            ? AppColors.primaryColor
+                            : Colors.white,
+                      ),
                     ),
                   ),
-                );
+                ),
+                IconButton(
+                  icon: const Icon(Icons.collections),
+                  color: Colors.white,
+                  onPressed: () async {
+                    _cameraController?.pausePreview();
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => LoadingScreen(
+                          functionToLoad: () async {
+                            //pick the image from the gallery
+                            final pickedImage = await getImageFromDevice(
+                              ImageSource.gallery,
+                            );
 
-                _cameraController?.resumePreview();
-              },
+                            if (pickedImage != null) {
+                              //crop the image
+                              final croppedImage = await croppeImage(
+                                pickedImage,
+                                radioX: 1,
+                                radioY: 1,
+                              );
+
+                              if (croppedImage != null) {
+                                setState(() {
+                                  imageToScan = croppedImage;
+                                });
+                                final similiarSpecies =
+                                    await scanAnimalDetailed(
+                                      FileImage(croppedImage.file),
+                                    );
+
+                                //!go to the result screen
+                                await Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ScannerResultScreen(
+                                      similiarSpecies: similiarSpecies,
+                                      scannedImage: croppedImage,
+                                    ),
+                                  ),
+                                );
+                              }
+                            }
+                          },
+                        ),
+                      ),
+                    );
+
+                    _cameraController?.resumePreview();
+                  },
+                ),
+
+                SizedBox(width: 2),
+              ],
             ),
           ),
+
           Positioned(
             left: 6,
             top: 6,
@@ -421,18 +451,11 @@ class _ScannerScreenState extends State<ScannerScreen> {
                 child: InkWell(
                   borderRadius: BorderRadius.circular(100),
                   onTap: () {
-                    setState(() {
-                      removeBackground = !removeBackground;
-                    });
+                    Navigator.pop(context);
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(6.0),
-                    child: Icon(
-                      Icons.auto_fix_high,
-                      color: removeBackground
-                          ? AppColors.primaryColor
-                          : Colors.white,
-                    ),
+                    child: Icon(Icons.arrow_back_ios),
                   ),
                 ),
               ),

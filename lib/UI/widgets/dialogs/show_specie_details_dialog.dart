@@ -1,4 +1,3 @@
-import 'package:bio_tox/UI/scanner/scanner_result_screen.dart';
 import 'package:bio_tox/UI/widgets/custom_image_widget.dart';
 import 'package:bio_tox/UI/widgets/risk_chip.dart';
 import 'package:bio_tox/app/theme/app_colors.dart';

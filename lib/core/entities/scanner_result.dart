@@ -1,8 +1,8 @@
-import 'package:bio_tox/core/entities/specie.dart';
+// import 'package:bio_tox/core/entities/specie.dart';
 
-class ScannerResult {
-  final Specie specieID;
-  final double similarity;
+// class ScannerResult {
+//   final Specie specieID;
+//   final double similarity;
 
-  ScannerResult({required this.specieID, required this.similarity});
-}
+//   ScannerResult({required this.specieID, required this.similarity});
+// }

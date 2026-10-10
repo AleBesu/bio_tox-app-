@@ -1,4 +1,4 @@
-import 'package:bio_tox/core/const/mock_sintomas_list.dart';
+import 'package:bio_tox/core/const/species_catalog.dart';
 import 'package:bio_tox/core/entities/specie.dart';
 import 'package:flutter/material.dart';
 
@@ -118,7 +118,7 @@ class CatalogoEspeciesScreen extends StatelessWidget {
 
   // ---- Grid de especies (2 columnas) ----
   Widget _buildGrid() {
-    final especies = latamVenomousSpecies;
+    final especies = specieCatalogList;
 
     return GridView.builder(
       shrinkWrap: true,

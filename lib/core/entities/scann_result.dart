@@ -1,13 +1,13 @@
-class ScannResult {
-  final double similarity;
-  final String animalName;
+// class ScannResult {
+//   final double similarity;
+//   final String animalId;
 
-  ScannResult({required this.similarity, required this.animalName});
+//   ScannResult({required this.similarity, required this.animalId});
 
-  factory ScannResult.fromJson(Map<String, dynamic> json) {
-    return ScannResult(
-      animalName: json['animalName'],
-      similarity: json['similarity'],
-    );
-  }
-}
+//   factory ScannResult.fromJson(Map<String, dynamic> json) {
+//     return ScannResult(
+//       animalId: json['animalName'],
+//       similarity: json['similarity'],
+//     );
+//   }
+// }

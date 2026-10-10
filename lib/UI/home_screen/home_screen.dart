@@ -1,14 +1,19 @@
+import 'package:bio_tox/UI/scanner/scanner_screen.dart';
 import 'package:bio_tox/app/theme/app_colors.dart';
-import 'package:bio_tox/core/features/files_manage/get_image_from_device.dart';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 
 /// Pantalla estática "Home" (modo claro) de BIOTOX.
 /// Sin lógica: todos los datos están hardcodeados directamente en el widget.
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,24 +45,21 @@ class HomeScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 14),
                     _buildIdentificationCard(
-                      imageUrl:
-                          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSTMBHOAQJ-DJJACkk3B7bjdA8yOnU9c3gvxdE-o4VBhw&s=10',
+                      imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSTMBHOAQJ-DJJACkk3B7bjdA8yOnU9c3gvxdE-o4VBhw&s=10',
                       nombre: 'Cascabel Diamante',
                       nombreCientifico: 'Crotalus atrox',
                       fecha: 'Hoy, 10:24 AM',
                     ),
                     const SizedBox(height: 14),
                     _buildIdentificationCard(
-                      imageUrl:
-                          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0BOJczCwvA9Yg8YXC3xjP0D1LcjjbF9CwCintg999VMDp3-WQNlT7OhqIYyuFMse3QEq6ZbivxUwJz5RlLsAn4Q7puw9nP5KYn3YJ0w&s=10',
+                      imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0BOJczCwvA9Yg8YXC3xjP0D1LcjjbF9CwCintg999VMDp3-WQNlT7OhqIYyuFMse3QEq6ZbivxUwJz5RlLsAn4Q7puw9nP5KYn3YJ0w&s=10',
                       nombre: 'Terciopelo',
                       nombreCientifico: 'Bothrops asper',
                       fecha: 'Ayer, 16:45 PM',
                     ),
                     const SizedBox(height: 14),
                     _buildIdentificationCard(
-                      imageUrl:
-                          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS36b9iVvYCnJV57NFnzbooV6oC1VuDIpqBtp9LselFnw&s=10',
+                      imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS36b9iVvYCnJV57NFnzbooV6oC1VuDIpqBtp9LselFnw&s=10',
                       nombre: 'Coral Real',
                       nombreCientifico: 'Micrurus',
                       fecha: '12 Oct, 09:15 AM',
@@ -135,7 +137,11 @@ class HomeScreen extends StatelessWidget {
     return InkWell(
       borderRadius: BorderRadius.circular(24),
       onTap: () async {
-        await getImageFromDevice(ImageSource.camera);
+        // await getImageFromDevice(ImageSource.camera);
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => ScannerScreen()),
+        );
       },
       child: Container(
         width: double.infinity,
